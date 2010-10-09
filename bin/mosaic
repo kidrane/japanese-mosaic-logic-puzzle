@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+class Mosaic
+  attr_reader :input_array
+  attr_reader :output_array
+
+  def initialize filename
+    read_from_input_file filename
+    solve
+  end
+
+  def read_from_input_file filename
+    File.open(filename) do |file| 
+      string_input_table = file.read
+      @input_array = string_input_table.split("\n").map{|row| row.split("|")[1..-1]}
+    end
+  end
+
+  def solve
+    if empty?
+      generate_empty_result
+    end
+
+  end
+
+  def generate_empty_result
+    input_array.each do |line|
+      puts "|#{line.join("|")}|"
+    end
+  end
+
+  def empty?
+    input_array.flatten.all? do |element|
+      element == " "
+    end
+  end
+
+end
+
+Mosaic.new ARGV.shift
